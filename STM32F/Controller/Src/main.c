@@ -249,7 +249,7 @@ void StartTask02(void *argument)
 
 void StartTask03(void *argument)
 {
-  for(1)
+  while(1)
   {
 		if(xSemaphoreTake(UARTSemHandle, 9999999)) {
 			// Process the interrupt
