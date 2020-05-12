@@ -200,26 +200,63 @@ void USART1_IRQHandler(void){
 
 void StartTask01(void *argument)
 {
+  char rec, op;
+	int first , second , count;
+	first = second = count = 0 ;
+	char buffer[32];
+	char output[32];
   while(1)
   {
-		HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_3);
-		osDelay(99999999);
+		if( xQueueReceive(RQHandle, &rec, 1000) == pdPASS ) {
+			memset(output, 0, 32);
+			if (rec=='\r'){
+				buffer[count]=0;
+				second=atoi(buffer);
+				count=0;
+				int result = evaluate(first,second, op);
+				sprintf(output,"= %d\n\n", result);
+				xQueueSendToBack(SQHandle, output, 10000);
+			} else if (rec=='+' || rec=='-' || rec == '*'){
+				op=rec;
+				buffer[count]=0;
+				first=atoi(buffer);
+				count=0;
+				sprintf(output,"%c\n", rec);
+				xQueueSendToBack(SQHandle, output, 10000);
+			} else {
+				buffer[count++]=rec;
+				sprintf(output,"%c\n", rec);
+				xQueueSendToBack(SQHandle, output, 10000);
+			}
+		}
+    //osDelay(1);
   }
 }
 
 void StartTask02(void *argument)
 {
+  char buffer[8];
+	memset(buffer, 0, 8);
   while(1)
   {
-		
+		if( xQueueReceive(SQHandle, buffer, 10000) == pdPASS ){
+			buffer[7]='\r';
+			HAL_UART_Transmit(&huart1, (uint8_t *)buffer, 8, 3000);
+			memset(buffer, 0, 8);
+		}
   }
 }
 
 void StartTask03(void *argument)
 {
-  while(1)
+  for(1)
   {
-		
+		if(xSemaphoreTake(UARTSemHandle, 9999999)) {
+			// Process the interrupt
+			taskENTER_CRITICAL();
+			xQueueSendToBack(RQHandle, receiveBuffer, 500);
+			taskEXIT_CRITICAL();
+		}
   }
 }
  /**
