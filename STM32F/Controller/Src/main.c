@@ -197,6 +197,9 @@ void USART1_IRQHandler(void){
 	HAL_UART_IRQHandler(&huart1);
 }
 
+int evaluate(int a, int b, char op){
+	return (op == '+')? a+b :(op == '*')? a*b : a-b;
+}
 
 void StartTask01(void *argument)
 {
