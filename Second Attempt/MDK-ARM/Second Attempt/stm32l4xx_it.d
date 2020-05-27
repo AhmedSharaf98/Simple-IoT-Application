@@ -30,17 +30,6 @@ second attempt\stm32l4xx_it.o: ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal
 second attempt\stm32l4xx_it.o: ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_i2c_ex.h
 second attempt\stm32l4xx_it.o: ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_pwr.h
 second attempt\stm32l4xx_it.o: ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_pwr_ex.h
-second attempt\stm32l4xx_it.o: ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_tim.h
-second attempt\stm32l4xx_it.o: ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_tim_ex.h
 second attempt\stm32l4xx_it.o: ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h
 second attempt\stm32l4xx_it.o: ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart_ex.h
 second attempt\stm32l4xx_it.o: ../Inc/stm32l4xx_it.h
-second attempt\stm32l4xx_it.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h
-second attempt\stm32l4xx_it.o: ../Inc/FreeRTOSConfig.h
-second attempt\stm32l4xx_it.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h
-second attempt\stm32l4xx_it.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/portable.h
-second attempt\stm32l4xx_it.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/deprecated_definitions.h
-second attempt\stm32l4xx_it.o: ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F/portmacro.h
-second attempt\stm32l4xx_it.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/mpu_wrappers.h
-second attempt\stm32l4xx_it.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/task.h
-second attempt\stm32l4xx_it.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/list.h

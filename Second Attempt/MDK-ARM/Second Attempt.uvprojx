@@ -18,7 +18,7 @@
           <Vendor>STMicroelectronics</Vendor>
           <PackID>Keil.STM32L4xx_DFP.2.3.0</PackID>
           <PackURL>https://www.keil.com/pack/</PackURL>
-          <Cpu>IRAM(0x20000000-0x2000FFFF) IROM(0x8000000-0x803FFFF) CLOCK(8000000) FPU2 CPUTYPE("Cortex-M4")</Cpu>
+          <Cpu>IRAM(0x20000000-0x2000FFFF) IROM(0x8000000-0x803FFFF)  CLOCK(8000000) FPU2 CPUTYPE("Cortex-M4")</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
           <StartupFile></StartupFile>
           <FlashDriverDll></FlashDriverDll>
@@ -338,7 +338,7 @@
               <MiscControls></MiscControls>
               <Define>USE_HAL_DRIVER,STM32L432xx</Define>
               <Undefine></Undefine>
-              <IncludePath>../Inc;../Drivers/STM32L4xx_HAL_Driver/Inc;../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy;../Middlewares/Third_Party/FreeRTOS/Source/include;../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2;../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F;../Drivers/CMSIS/Device/ST/STM32L4xx/Include;../Drivers/CMSIS/Include</IncludePath>
+              <IncludePath>../Inc;   ../Drivers/STM32L4xx_HAL_Driver/Inc;   ../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy;   ../Drivers/CMSIS/Device/ST/STM32L4xx/Include;   ../Drivers/CMSIS/Include;../Middlewares/Third_Party/FreeRTOS/Source/include;../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS;../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -388,9 +388,6 @@
               <FilePath>startup_stm32l432xx.s</FilePath>
             </File>
           </Files>
-        </Group>
-        <Group>
-          <GroupName>::CMSIS</GroupName>
         </Group>
         <Group>
           <GroupName>Application/User</GroupName>
@@ -571,9 +568,9 @@
               <FilePath>../Middlewares/Third_Party/FreeRTOS/Source/timers.c</FilePath>
             </File>
             <File>
-              <FileName>cmsis_os2.c</FileName>
+              <FileName>cmsis_os.c</FileName>
               <FileType>1</FileType>
-              <FilePath>../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.c</FilePath>
+              <FilePath>../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.c</FilePath>
             </File>
             <File>
               <FileName>heap_4.c</FileName>
@@ -586,6 +583,9 @@
               <FilePath>../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F/port.c</FilePath>
             </File>
           </Files>
+        </Group>
+        <Group>
+          <GroupName>::CMSIS</GroupName>
         </Group>
       </Groups>
     </Target>
