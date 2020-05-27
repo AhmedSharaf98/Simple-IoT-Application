@@ -68,13 +68,25 @@ static void MX_USART1_UART_Init(void);
   */
 	
 uint8_t msg[13] =  "Hello World\n\r";
-uint8_t buffer [16];
-short bufferLocation = 0;
+char buffer [16];
+short bufferLocation = -1;
 uint8_t rec[1];
 int process = 0;
+
+
+
+const char TOGGLE_LED[16] = "ToggleLed";
+const char GET_TIME[16] = "GetTime";
+const char SET_ALARM[16] = "SetAlarm";
+
 void handleRequest(){
-		HAL_UART_Transmit(&huart2, buffer, 16,500);
+	HAL_UART_Transmit(&huart2, "Handling\n\r", 10,500);
+		if(strcmp(buffer, TOGGLE_LED) == 0){
+			HAL_UART_Transmit(&huart2, "Toggling", 8,500);
+			HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_3);
+		}
 		
+		HAL_UART_Transmit(&huart2, buffer, 16,500);
 		bufferLocation = 0;
 		memset(buffer, 0, 16);
 		process = 0;
@@ -94,15 +106,13 @@ int main(void)
 	
   while (1)
   {
-		HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_3);
-		HAL_Delay(1500);
-//		if(process){
-//			__HAL_UART_DISABLE_IT(&huart1, UART_IT_RXNE);
-//			__HAL_UART_DISABLE_IT(&huart2, UART_IT_RXNE);
-//				handleRequest();
-//			__HAL_UART_ENABLE_IT(&huart1, UART_IT_RXNE);
-//			__HAL_UART_ENABLE_IT(&huart2, UART_IT_RXNE);
-//		}	
+		if(process){
+			__HAL_UART_DISABLE_IT(&huart1, UART_IT_RXNE);
+			__HAL_UART_DISABLE_IT(&huart2, UART_IT_RXNE);
+				handleRequest();
+			__HAL_UART_ENABLE_IT(&huart1, UART_IT_RXNE);
+			__HAL_UART_ENABLE_IT(&huart2, UART_IT_RXNE);
+		}	
   }
 }
 
@@ -273,12 +283,11 @@ void USART1_IRQHandler(void)
 {
   HAL_UART_IRQHandler(&huart1);
 	HAL_UART_Receive_IT(&huart1, rec, 1);
-	HAL_UART_Transmit(&huart2, rec, 1,500);
-//	if(rec[0] == '*'){
-//		process = 1;
-//	} else {
-//		buffer[bufferLocation++] = rec[0];
-//	}
+	if(rec[0] == '*'){
+		process = 1;
+	} else {
+		buffer[bufferLocation++] = rec[0];
+	}
 }
 
 /**
