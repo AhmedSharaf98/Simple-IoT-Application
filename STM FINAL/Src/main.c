@@ -77,7 +77,7 @@ void handleRequest(){
 		
 		bufferLocation = 0;
 		memset(buffer, 0, 16);
-		process = 1;
+		process = 0;
 }
 int main(void)
 {
@@ -94,13 +94,15 @@ int main(void)
 	
   while (1)
   {
-		if(process){
-			__HAL_UART_DISABLE_IT(&huart1, UART_IT_RXNE);
-			__HAL_UART_DISABLE_IT(&huart2, UART_IT_RXNE);
-				handleRequest();
-			__HAL_UART_ENABLE_IT(&huart1, UART_IT_RXNE);
-			__HAL_UART_ENABLE_IT(&huart2, UART_IT_RXNE);
-		}	
+		HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_3);
+		HAL_Delay(1500);
+//		if(process){
+//			__HAL_UART_DISABLE_IT(&huart1, UART_IT_RXNE);
+//			__HAL_UART_DISABLE_IT(&huart2, UART_IT_RXNE);
+//				handleRequest();
+//			__HAL_UART_ENABLE_IT(&huart1, UART_IT_RXNE);
+//			__HAL_UART_ENABLE_IT(&huart2, UART_IT_RXNE);
+//		}	
   }
 }
 
@@ -272,11 +274,11 @@ void USART1_IRQHandler(void)
   HAL_UART_IRQHandler(&huart1);
 	HAL_UART_Receive_IT(&huart1, rec, 1);
 	HAL_UART_Transmit(&huart2, rec, 1,500);
-	if(rec[0] == '*'){
-		process = 1;
-	} else {
-		buffer[bufferLocation++] = rec[0];
-	}
+//	if(rec[0] == '*'){
+//		process = 1;
+//	} else {
+//		buffer[bufferLocation++] = rec[0];
+//	}
 }
 
 /**
