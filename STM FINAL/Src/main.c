@@ -68,49 +68,40 @@ static void MX_USART1_UART_Init(void);
   */
 	
 uint8_t msg[13] =  "Hello World\n\r";
-uint8_t buffer [10];
+uint8_t buffer [16];
+short bufferLocation = 0;
+uint8_t rec[1];
+int process = 0;
+void handleRequest(){
+		HAL_UART_Transmit(&huart2, buffer, 16,500);
+		
+		bufferLocation = 0;
+		memset(buffer, 0, 16);
+		process = 1;
+}
 int main(void)
 {
-  /* USER CODE BEGIN 1 */
-
-  /* USER CODE END 1 */
-
-  /* MCU Configuration--------------------------------------------------------*/
-
-  /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
   HAL_Init();
-
-  /* USER CODE BEGIN Init */
-
-  /* USER CODE END Init */
-
-  /* Configure the system clock */
   SystemClock_Config();
-
-  /* USER CODE BEGIN SysInit */
-
-  /* USER CODE END SysInit */
-
-  /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_USART2_UART_Init();
   MX_USART1_UART_Init();
-  /* USER CODE BEGIN 2 */
-
-  /* USER CODE END 2 */
-
-  /* Infinite loop */
-  /* USER CODE BEGIN WHILE */
+ 
 	__HAL_UART_ENABLE_IT(&huart1, UART_IT_RXNE);
 	__HAL_UART_ENABLE_IT(&huart1, UART_IT_TC);
 	__HAL_UART_ENABLE_IT(&huart2, UART_IT_RXNE);
 	__HAL_UART_ENABLE_IT(&huart2, UART_IT_TC);
+	
   while (1)
   {
-    HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_3);
-		HAL_Delay(500);
+		if(process){
+			__HAL_UART_DISABLE_IT(&huart1, UART_IT_RXNE);
+			__HAL_UART_DISABLE_IT(&huart2, UART_IT_RXNE);
+				handleRequest();
+			__HAL_UART_ENABLE_IT(&huart1, UART_IT_RXNE);
+			__HAL_UART_ENABLE_IT(&huart2, UART_IT_RXNE);
+		}	
   }
-  /* USER CODE END 3 */
 }
 
 /**
@@ -213,7 +204,7 @@ static void MX_USART2_UART_Init(void)
 
   /* USER CODE END USART2_Init 1 */
   huart2.Instance = USART2;
-  huart2.Init.BaudRate = 9600	;
+  huart2.Init.BaudRate = 9600;
   huart2.Init.WordLength = UART_WORDLENGTH_8B;
   huart2.Init.StopBits = UART_STOPBITS_1;
   huart2.Init.Parity = UART_PARITY_NONE;
@@ -279,8 +270,13 @@ void Error_Handler(void)
 void USART1_IRQHandler(void)
 {
   HAL_UART_IRQHandler(&huart1);
-	HAL_UART_Receive_IT(&huart1, buffer, 1);
-	HAL_UART_Transmit_IT(&huart2, buffer, 1);
+	HAL_UART_Receive_IT(&huart1, rec, 1);
+	HAL_UART_Transmit(&huart2, rec, 1,500);
+	if(rec[0] == '*'){
+		process = 1;
+	} else {
+		buffer[bufferLocation++] = rec[0];
+	}
 }
 
 /**
